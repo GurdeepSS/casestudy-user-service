@@ -42,8 +42,11 @@ public class UserRestControllerTests extends BaseControllerTests {
         this.userRepository.deleteAll();
 
         this.userList = new ArrayList<User>();
-        userRepository.save(new User("Martin", "Jensen", "Aarhus", LocalDate.of(1989, Month.OCTOBER, 26)));
-        userRepository.save(new User("Kasper", "Nissen", "Aarhus", LocalDate.of(1986, Month.NOVEMBER, 13)));
+        this.userList.add(new User("Martin", "Jensen", "NY", LocalDate.of(1988, Month.OCTOBER, 26)));
+        this.userList.add(new User("Kasper", "Nissen", "Aarhus", LocalDate.of(1986, Month.NOVEMBER, 13)));
+
+        userRepository.save(this.userList.get(0));
+        userRepository.save(this.userList.get(1));
     }
 
 
@@ -53,8 +56,8 @@ public class UserRestControllerTests extends BaseControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].firstName", is("Martin")))
-                .andExpect(jsonPath("$[0].lastName", is("Jensen")));
+                .andExpect(jsonPath("$[0].firstName", is(userList.get(0).getFirstName())))
+                .andExpect(jsonPath("$[0].lastName", is(userList.get(0).getLastName())));
 
     }
 
