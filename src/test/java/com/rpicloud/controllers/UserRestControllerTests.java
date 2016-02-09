@@ -42,11 +42,12 @@ public class UserRestControllerTests extends BaseControllerTests {
         this.userRepository.deleteAll();
 
         this.userList = new ArrayList<User>();
-        this.userList.add(new User("Martin", "Jensen", "NY", LocalDate.of(1988, Month.OCTOBER, 26)));
-        this.userList.add(new User("Kasper", "Nissen", "Aarhus", LocalDate.of(1986, Month.NOVEMBER, 13)));
+        this.userList.add(new User("Peter", "Parker", "New York", LocalDate.of(1975, Month.AUGUST, 20)));
+        this.userList.add(new User("Bruce", "Wayne", "Secret", LocalDate.of(1986, Month.JUNE, 1)));
 
         userRepository.save(this.userList.get(0));
         userRepository.save(this.userList.get(1));
+        userRepository.findAll().forEach(System.out::println);
     }
 
 

@@ -16,6 +16,7 @@ import java.util.Arrays;
 /**
  * Created by kaspernissen on 09/02/2016.
  */
+
 public class BaseControllerTests {
     protected MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
