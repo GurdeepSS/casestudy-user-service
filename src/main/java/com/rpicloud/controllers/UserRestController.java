@@ -1,26 +1,16 @@
 package com.rpicloud.controllers;
 
-import com.google.common.base.Throwables;
-import com.mongodb.MongoClientException;
-import com.mongodb.MongoSocketException;
-import com.mongodb.MongoTimeoutException;
 import com.rpicloud.exceptions.MongoConnectionException;
+import com.rpicloud.exceptions.ResourceNotFoundException;
 import com.rpicloud.models.User;
 import com.rpicloud.repositories.UserRepository;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by mixmox on 08/02/16.
@@ -32,13 +22,20 @@ public class UserRestController {
     private UserRepository repository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Collection<User>> getAllUsers(){
+    public ResponseEntity<Collection<User>> getAllUsers() throws MongoConnectionException {
+        ResponseEntity<Collection<User>> users;
+        try {
+            users = new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
+        }
+        catch (DataAccessResourceFailureException exception) {
+            throw new MongoConnectionException(exception.getMessage(), exception);
+        }
 
-         return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
+        return users;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) throws MongoConnectionException {
+    public ResponseEntity<User> getUserById(@PathVariable String id) throws MongoConnectionException, ResourceNotFoundException {
         User user;
         try{
             user = repository.findOne(id);

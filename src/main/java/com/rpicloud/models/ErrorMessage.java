@@ -7,15 +7,14 @@ import org.springframework.http.HttpStatus;
  */
 public class ErrorMessage {
     private String message;
-    private String cause;
     private String stackTrace;
+    private String timestamp;
 
     private int errorCode;
 
-    public ErrorMessage(String message, Exception exception, int errorCode) {
+    public ErrorMessage(String message, String stackTrace, int errorCode) {
         this.message = message;
-        this.cause = exception.getCause().toString();
-        this.stackTrace = exception.getStackTrace().toString();
+        this.stackTrace = stackTrace;
         this.errorCode = errorCode;
     }
 
@@ -30,12 +29,12 @@ public class ErrorMessage {
         this.message = message;
     }
 
-    public String getCause() {
-        return cause;
+    public int getErrorCode() {
+        return errorCode;
     }
 
-    public void setCause(String cause) {
-        this.cause = cause;
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
     public String getStackTrace() {
@@ -44,13 +43,5 @@ public class ErrorMessage {
 
     public void setStackTrace(String stackTrace) {
         this.stackTrace = stackTrace;
-    }
-
-    public int getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(int errorCode) {
-        this.errorCode = errorCode;
     }
 }
