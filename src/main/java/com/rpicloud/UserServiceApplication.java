@@ -24,9 +24,11 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Date;
 
+import static springfox.documentation.builders.PathSelectors.regex;
+
 @SpringBootApplication
 @EnableSwagger2
-public class UserServiceApplication implements CommandLineRunner {
+public class UserServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UserServiceApplication.class, args);
@@ -42,8 +44,8 @@ public class UserServiceApplication implements CommandLineRunner {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
 				.apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.any())
-				//.paths(regex("/products.*"))
+//				.paths(PathSelectors.any())
+				.paths(regex("/.*"))
 				.build();
 	}
 
@@ -61,29 +63,6 @@ public class UserServiceApplication implements CommandLineRunner {
 	@Autowired
 	private UserRepository repository;
 
-	@Override
-	public void run(String... args) throws Exception {
-
-//		Save a couple of users
-//		repository.save(new User("Martin", "Jensen", "Aarhus", LocalDate.of(1989, Month.OCTOBER, 26)));
-//		repository.save(new User("Kasper", "Nissen", "Aarhus", LocalDate.of(1986, Month.NOVEMBER, 13)));
-
-		System.out.println("Users found with findAll():");
-		System.out.println("-------------------------------");
-		for (User user: repository.findAll()) {
-			System.out.println(user);
-		}
-		System.out.println();
-
-
-		System.out.println("findByFirstName('Martin'):");
-		System.out.println(repository.findByFirstName("Martin"));
-
-		System.out.println("repository.findByLastName('Nissen')");
-		for (User user : repository.findByLastName("Nissen")) {
-			System.out.println(user);
-		}
-	}
 }
 
 @RestController

@@ -10,8 +10,8 @@ import java.util.List;
  * Created by mixmox on 08/02/16.
  */
 
-@RepositoryRestResource(collectionResourceRel = "user", path = "user")
+@RepositoryRestResource(collectionResourceRel = "user", path = "users")
 public interface UserRepository extends MongoRepository<User, String> {
-    public User findByFirstName(String firstName);
-    public List<User> findByLastName(String lastName);
+    User findByFirstName(String firstName);
+    List<User> findByLastName(String lastName);
 }
